@@ -1,7 +1,7 @@
 // Write your "projects" router here!
 const express = require("express");
 const projectInfo = require('./projects-model');
-
+const { validateField } = require('../middleware/middleware');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -28,14 +28,8 @@ router.get('/:id', async (req,res) => {
     })
 })
 
-router.post('/', async (req,res) => {
+router.post('/', validateField, async (req,res) => {
   await projectInfo.insert(req.body);
-  if (!req.body.name || !req.body.description || !req.body.completed) {
-    return res.status(400).json({
-      message: "Missing name, description or complete status"
-    })
-  }
-
   res.status(200).json(req.body);
 });
 
