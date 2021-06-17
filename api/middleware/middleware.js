@@ -16,13 +16,13 @@ async function validateField(req, res, next) {
 }
 
 async function validateProjectId(req, res, next) {
-  const projectID = req.params.id;
-  const user = await projectInfo.get(projectID)
-  if (user) {
-    req.user = user
+  const project_id = req.params.id;
+  const project = await projectInfo.get(project_id)
+  if (project_id) {
+    req.project = project
     next()
   } else {
-    res.status(404).json({ message: "user not found" })
+    res.status(404).json({ message: "project does not exist" })
   }
 }
 
@@ -31,3 +31,5 @@ module.exports = {
   validateField,
   validateProjectId
 };
+
+
